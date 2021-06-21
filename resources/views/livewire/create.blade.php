@@ -12,81 +12,124 @@
 
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>?
 
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+        <div class="inline-block align-start bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
             <form>
-
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-
                     <div class="">
+                        <div class="row justify-content-start mb-2">
+                            <div class="col-6">
+                                <div class="mb-4">
 
+                                <label for="forisbn" class="block text-gray-700 text-sm font-bold mb-2">ISBN<span style="color: red; ">*</label>
+
+                                <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forisbn" placeholder="Masukkan ISBN buku" wire:model="isbn">
+
+                                @error('isbn') <span class="text-red-500">{{ $message }}</span>@enderror
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-4">
+
+                                    <label for="forjudul" class="block text-gray-700 text-sm font-bold mb-2">Judul<span style="color: red; ">*</label>
+
+                                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forjudul" placeholder="Masukkan judul buku" wire:model="judul">
+
+                                    @error('judul') <span class="text-red-500">{{ $message }}</span>@enderror
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start mb-2">
+                            <div class="col-6">
+                                 <div class="mb-4">
+
+                                    <label for="forpenulis" class="block text-gray-700 text-sm font-bold mb-2">Penulis<span style="color: red; ">*</label>
+
+                                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forpenulis" placeholder="Masukkan penulis buku" wire:model="penulis">
+
+                                    @error('penulis') <span class="text-red-500">{{ $message }}</span>@enderror
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-4">
+
+                                    <label for="forpenerbit" class="block text-gray-700 text-sm font-bold mb-2">Penerbit<span style="color: red; ">*</label>
+
+                                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forpenerbit" placeholder="Masukkan penerbit buku" wire:model="penerbit">
+
+                                    @error('penerbit') <span class="text-red-500">{{ $message }}</span>@enderror
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start mb-2">
+                            <div class="col-6">
+                                <div class="mb-4">
+                                    <label for="forkategori" class="block text-gray-700 text-sm font-bold mb-2">Kategori<span style="color: red; ">*</label>
+                                    <select class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="kategori_id" id="kategori_id" wire:model="kategori_id">Kategori
+                                        <option disabled value>Pilih Kategori Buku</option>
+                                         @foreach ($kats as $item)
+                                        <option value="{{$item->id}}">{{$item->kategori}}</option>
+                                         @endforeach
+                                    </select> 
+                                    @error('kategori_id') <span class="text-red-500">{{ $message }}</span>@enderror
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-4">
+                                    <label for="forsupplier_id" class="block text-gray-700 text-sm font-bold mb-2">Supplier<span style="color: red; ">*</label>
+                                    <select class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="supplier_id" id="supplier_id" wire:model="supplier_id">Supplier
+                                        <option disabled value>Pilih Supplier Buku</option>
+                                         @foreach ($sups as $item)
+                                        <option value="{{$item->id}}">{{$item->nama}}</option>
+                                         @endforeach
+                                    </select> 
+                                    @error('supplier_id') <span class="text-red-500">{{ $message }}</span>@enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start mb-2">
+                            <div class="col-6">
+                                <div class="mb-4">
+
+                                    <label for="forstok" class="block text-gray-700 text-sm font-bold mb-2">Stok<span style="color: red; ">*</label>
+
+                                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forstok" placeholder="Masukkan stok buku" wire:model="stok">
+
+                                    @error('stok') <span class="text-red-500">{{ $message }}</span>@enderror
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-4">
+
+                                    <label for="forharga" class="block text-gray-700 text-sm font-bold mb-2">Harga<span style="color: red; ">*</label>
+
+                                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forharga" placeholder="Masukkan harga buku" wire:model="harga">
+
+                                    @error('harga') <span class="text-red-500">{{ $message }}</span>@enderror
+
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-4">
 
-                            <label for="forisbn" class="block text-gray-700 text-sm font-bold mb-2">ISBN</label>
+                            <label for="forfoto" class="block text-gray-700 text-sm font-bold mb-2">Foto<span style="color: red; ">*</label>
 
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forisbn" placeholder="Enter isbn" wire:model="isbn">
+                            <input type="file" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forfoto" placeholder="Masukkan foto buku" wire:model="foto">
 
-                            @error('isbn') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('foto') <span class="text-red-500">{{ $message }}</span>@enderror
 
                         </div>
-
                         <div class="mb-4">
 
-                            <label for="fornjudul" class="block text-gray-700 text-sm font-bold mb-2">Judul</label>
+                            <label for="forsinopsis" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi<span style="color: red; ">*</label>
 
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forjudul" placeholder="Enter judul" wire:model="judul">
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forsinopsis" placeholder="Masukkan sinopsis buku" wire:model="sinopsis">
 
-                            @error('judul') <span class="text-red-500">{{ $message }}</span>@enderror
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label for="forpenulis" class="block text-gray-700 text-sm font-bold mb-2">Penulis</label>
-
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forpenulis" placeholder="Enter penulis" wire:model="penulis">
-
-                            @error('penulis') <span class="text-red-500">{{ $message }}</span>@enderror
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label for="forpenerbit" class="block text-gray-700 text-sm font-bold mb-2">Penerbit</label>
-
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forpenerbit" placeholder="Enter penerbit" wire:model="penerbit">
-
-                            @error('penerbit') <span class="text-red-500">{{ $message }}</span>@enderror
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label for="forkategori" class="block text-gray-700 text-sm font-bold mb-2">Kategori</label>
-
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forkategori" placeholder="Enter kategori" wire:model="kategori">
-
-                            @error('kategori') <span class="text-red-500">{{ $message }}</span>@enderror
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label for="forstok" class="block text-gray-700 text-sm font-bold mb-2">Stok</label>
-
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forstok" placeholder="Enter stok" wire:model="stok">
-
-                            @error('stok') <span class="text-red-500">{{ $message }}</span>@enderror
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label for="forharga" class="block text-gray-700 text-sm font-bold mb-2">Harga</label>
-
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="forharga" placeholder="Enter harga" wire:model="harga">
-
-                            @error('harga') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('sinopsis') <span class="text-red-500">{{ $message }}</span>@enderror
 
                         </div>
 
@@ -94,11 +137,11 @@
 
                 </div>
 
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div class="bg-gray-50 px-4 py-3 sm:px-4 sm:flex sm:flex-row-reverse">
 
-                    <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                    <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:ml-3 sm:w-auto">
 
-                        <button wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                        <button wire:click.prevent="store()" type="button" class="bg-blue-500 hover:bg-blue-700 text-sm text-white py-2 px-2 rounded">
 
                         Simpan
 
@@ -108,7 +151,7 @@
 
                     <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
 
-                        <button wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                        <button wire:click="closeModal()" type="button" class="bg-red-500 hover:bg-red-700 text-sm text-white py-2 px-3 rounded">
 
                          Batal
 

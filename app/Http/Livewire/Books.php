@@ -4,16 +4,27 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Book;
+use App\Models\Kategori;
+use App\Models\Supplier;
+use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 
 class Books extends Component
 {
-    public $books, $isbn, $judul, $penulis,$penerbit, $kategori, $stok, $harga, $book_id;
+    use WithFileUploads;
+    use WithPagination;
+    public $book, $isbn, $judul, $penulis,$penerbit, $kategori_id, $stok, $harga, $foto, $sinopsis, $supplier_id, $book_id, $search, $kat, $sup;
     public $isModal;
     public function render()
     {
-        $this->books = Book::orderBy('created_at','DESC')->get();
-        return view('livewire.books');
+       
+        $kats = Kategori::all();
+        $sups = Supplier::all();
+        $search = '%'.$this->search.'%';
+        $books = Book::where('judul','LIKE',$search)
+                ->orderBy('created_at','DESC')->paginate(5);
+        return view('livewire.books', compact('kats', 'sups'),['books'=> $books]) ->layout('layouts.template');
     }
     public function create()
     {
@@ -26,9 +37,12 @@ class Books extends Component
         $this->judul ='';
         $this->penulis ='';
         $this->penerbit ='';
-        $this->kategori ='';
+        $this->kategori_id ='';
+        $this->supplier_id ='';
         $this->stok ='';
         $this->harga ='';
+        $this->foto ='';
+        $this->sinopsis ='';
         $this->book_id='';
     }
     public function openModal()
@@ -44,14 +58,37 @@ class Books extends Component
     public function store()
     {
         $this->validate([
-            'isbn'=> 'required|string',
-            'judul'=> 'required|string',
-            'penulis'=> 'required|string',
-            'penerbit'=> 'required|string',
-            'kategori'=> 'required| string',
-            'stok'=> 'required| integer',
-            'harga'=> 'required| integer'
+            'isbn'=> 'required',
+            'judul'=> 'required',
+            'penulis'=> 'required',
+            'penerbit'=> 'required',
+            'kategori_id'=> 'required',
+            'supplier_id'=> 'required',
+            'stok'=> 'required|integer',
+            'harga'=> 'required|integer',
+            'sinopsis'=> 'required',
+            'foto'=> 'required|image|max:1024'
+        ],
+        [
+            'isbn.required'=>'ISBN wajib di isi!',
+            'judul.required'=>'Judul wajib di isi!',
+            'penulis.required'=>'Nama Penulis wajib di isi!',
+            'penerbit.required'=>'Nama Penerbit wajib di isi!',
+            'kategori_id.required'=>'Kategori wajib di isi!',
+            'stok.required'=>'Stok wajib di isi!',
+            'stok.integer'=>'Stok harus bertipe integer!',
+            'harga.required'=>'Harga wajib di isi!',
+            'harga.integer'=>'Harga harus bertipe integer!',
+            'foto.required'=>'Foto wajib di isi!',
+            'foto.max'=>'ukurn foto max 1024 KB!',
+            'sinopsis.required'=>'Sinopsis wajib di isi!',
+            'supplier_id.required'=>'Nama supplier_id wajib di isi!'
         ]);
+
+        if(!empty($this->foto))
+        {
+            $this->foto->store('foto','public');
+        }
 
         Book::updateOrCreate(
             ['id' => $this->book_id], 
@@ -60,28 +97,36 @@ class Books extends Component
              'judul'=>$this->judul,
              'penulis'=>$this->penulis,
              'penerbit'=>$this->penerbit,
-             'kategori'=> $this->kategori,
+             'kategori_id'=> $this->kategori_id,
+             'supplier_id'=> $this->supplier_id,
              'stok'=> $this->stok,
-             'harga'=> $this->harga
+             'harga'=> $this->harga,
+             'foto'=> $this->foto->hashName(),
+             'sinopsis'=> $this->sinopsis,
 
             ]
             );
 
-            session()->flash('message', $this->book_id ? $this-> judul . ' Data berhasil diperbarui':$this->judul . ' Data berhasil ditambahkan');
+            session()->flash('message', $this->book_id ? 'Data berhasil diperbarui':'Data berhasil ditambahkan');
             $this -> resetFields();
             $this -> closeModal();
     }
     public function edit($id)
     {
+        $kats = Kategori::all();
+        $sups = Supplier::all();
         $book = Book::find($id);
         $this->book_id = $id;
         $this->isbn = $book ->isbn;
         $this->judul =$book->judul;
         $this->penulis  =$book->penulis;
         $this->penerbit =$book->penerbit;
-        $this->kategori =$book->kategori;
+        $this->kategori_id =$book->kategori_id;
+        $this->supplier_id =$book->supplier_id;
         $this->stok=$book->stok;
         $this->harga=$book->harga;
+        $this->sinopsis=$book->sinopsis;
+        $this->foto=$book->foto;
         $this->openModal();
 
     }
@@ -89,7 +134,7 @@ class Books extends Component
     {
         $book = Book::find($id);
         $book-> delete();
-      session()->flash('message', $book->judul . ' Data berhasil Dihapus');
+      session()->flash('message', ' Data berhasil Dihapus');
 
     }
 

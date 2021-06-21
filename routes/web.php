@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Books;
+use App\Http\Livewire\Kategoris;
+use App\Http\Livewire\Suppliers;
+use App\Http\Livewire\ProductIndex;
+use App\Http\Livewire\Cart;
+use App\Http\Livewire\CartIndex;
+use App\Http\Livewire\Checkout;
+use App\Models\Book;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,18 +21,12 @@ use App\Http\Livewire\Books;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ProductIndex::class)->name('produk.index');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
-
-Route::group(['middleware'=> ['auth:sanctum', 'verified']],function() {
-    Route::get('/dashboard',function(){
-        return view('dashboard');
-    })->name('dashboard');
-
-    Route::get('book', Books::class)->name('book');
+Route::group(['middleware'=> ['auth:sanctum', 'verified', 'accessrole',]],function() {
+    Route::get('stokbuku', Books::class)->name('stokbuku');
+    Route::get('kategoribuku', Kategoris::class)->name('kategoribuku');
+    Route::get('supplierbuku', Suppliers::class)->name('supplierbuku');
+    Route::get('/carts', CartIndex::class)->name('cart.index');
+    Route::get('/checkout', Checkout::class)->name('checkout');
 });
